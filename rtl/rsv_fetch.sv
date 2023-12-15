@@ -25,7 +25,7 @@ output logic  [31:0]  fetch_mem_inst_o
   // Assert valid always since the processor will need a new
   // instruction every cycle out from reset 
   
-  always @(posedge clk or negedge reset_n)
+  always_ff @(posedge clk or negedge reset_n)
   begin 
       if(!reset_n) begin 
          fetch_mem_req_q <= 1'b0;
