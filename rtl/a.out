@@ -1,0 +1,58 @@
+#! /usr/local/bin/vvp
+:ivl_version "11.0 (devel)" "(s20150603-487-g4f383a8)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "vhdl_textio";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+:vpi_module "v2009";
+S_0x253f7a0 .scope module, "rsv_fetch" "rsv_fetch" 2 2;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk"
+    .port_info 1 /INPUT 1 "reset_n"
+    .port_info 2 /INPUT 32 "pc_i"
+    .port_info 3 /OUTPUT 1 "fetch_mem_req_o"
+    .port_info 4 /OUTPUT 32 "fetch_mem_addr_o"
+    .port_info 5 /INPUT 32 "mem_rd_inst_i"
+    .port_info 6 /OUTPUT 32 "fetch_mem_inst_o"
+L_0x259a970 .functor BUFZ 1, v0x259a4c0_0, C4<0>, C4<0>, C4<0>;
+o0x7fae05467138 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+L_0x259aa30 .functor BUFZ 32, o0x7fae05467138, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+o0x7fae05467108 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+L_0x259ab00 .functor BUFZ 32, o0x7fae05467108, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+o0x7fae05467018 .functor BUFZ 1, C4<z>; HiZ drive
+v0x253f9e0_0 .net "clk", 0 0, o0x7fae05467018;  0 drivers
+v0x259a230_0 .net "fetch_mem_addr_o", 31 0, L_0x259aa30;  1 drivers
+v0x259a310_0 .net "fetch_mem_inst_o", 31 0, L_0x259ab00;  1 drivers
+v0x259a400_0 .net "fetch_mem_req_o", 0 0, L_0x259a970;  1 drivers
+v0x259a4c0_0 .var "fetch_mem_req_q", 0 0;
+v0x259a5d0_0 .net "mem_rd_inst_i", 31 0, o0x7fae05467108;  0 drivers
+v0x259a6b0_0 .net "pc_i", 31 0, o0x7fae05467138;  0 drivers
+o0x7fae05467168 .functor BUFZ 1, C4<z>; HiZ drive
+v0x259a790_0 .net "reset_n", 0 0, o0x7fae05467168;  0 drivers
+E_0x2576900/0 .event negedge, v0x259a790_0;
+E_0x2576900/1 .event posedge, v0x253f9e0_0;
+E_0x2576900 .event/or E_0x2576900/0, E_0x2576900/1;
+    .scope S_0x253f7a0;
+T_0 ;
+    %wait E_0x2576900;
+    %load/vec4 v0x259a790_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x259a4c0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x259a4c0_0, 0;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "rsv_fetch.sv";
